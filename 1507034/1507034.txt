@@ -1,0 +1,75 @@
+#include<iostream>
+#include<stdio.h>
+using namespace std;
+class items
+{
+public:
+    int weight,value;
+    items() {}
+    items(int w,int v):weight(w),value(v) {}
+};
+
+
+double napsack(int W,items arr[],int n)
+{
+  
+    for(int i=0;i<n;i++){
+        for(int j=0;j<n;j++){
+           double d1=(double)arr[i].value/arr[i].weight;
+          double d2=(double)arr[j].value/arr[j].weight;
+          if(d2<d1){
+            int temp=arr[i].value;
+            int temp2=arr[i].weight;
+            arr[i].value=arr[j].value;
+            arr[i].weight=arr[j].weight;
+            arr[j].value=temp;
+            arr[j].weight=temp2;
+          }
+        }
+    }
+  
+
+    int CurWeight=0;
+    double finalValue=0.0;
+    for(int i=0; i<n; i++)
+    {
+        if((CurWeight+arr[i].weight)<=W)
+        {
+            CurWeight+=arr[i].weight;
+            finalValue+=arr[i].value;
+        }
+        else
+        {
+            int remain=W-CurWeight;
+            finalValue+=arr[i].value*((double)remain/arr[i].weight);
+            break;
+        }
+
+
+    }
+    return finalValue;
+
+
+
+}
+
+int main()
+{
+    //freopen("in.txt","r",stdin);
+   
+    //items arr[]= {{10,40},{3,20},{5,30}};
+    int n,CAP;
+    items arr[100];
+    cin>>n>>CAP;
+    for(int i=0;i<n;i++){
+        cin>>arr[i].weight>>arr[i].value;
+        }
+    //int n=sizeof(arr)/sizeof(arr[0]);
+    //int CAP=10;
+   
+    cout<<"MAX PROFIT: "<<napsack(CAP,arr,n)<<endl;
+
+
+
+}
+
